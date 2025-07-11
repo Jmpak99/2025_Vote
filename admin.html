@@ -1,0 +1,164 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>투표 관리자 페이지</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      background-color: #f4f4f4;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 24px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 1.6rem;
+      color: #333;
+    }
+
+    .admin-card {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-sizing: border-box;
+    }
+
+    .admin-card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      color: #333;
+    }
+
+    .admin-card label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    .admin-card input,
+    .admin-card select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    .admin-card input:focus,
+    .admin-card select:focus {
+      border-color: #5a67d8;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(90, 103, 216, 0.2);
+    }
+
+    .admin-card button {
+      width: 100%;
+      padding: 12px;
+      background-color: #5a67d8;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .admin-card button:hover {
+      background-color: #434190;
+    }
+
+    #resetBtn {
+      background-color: #f56565;
+    }
+
+    #resetBtn:hover {
+      background-color: #c53030;
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .back-link a {
+      color: #555;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <h1>🛠️ 투표 관리자 페이지</h1>
+
+    <!-- 제목/설명 설정 -->
+    <div class="admin-card">
+      <h2>제목 & 설명 설정</h2>
+      <label for="titleInput">투표 제목</label>
+      <input type="text" id="titleInput" placeholder="예: 2025 청년회비 예산 결의의 건" />
+
+      <label for="descInput">투표 설명</label>
+      <input type="text" id="descInput" placeholder="예: 2025 청년회비 예산 결의에 대한 의견 주세요." />
+
+      <button id="saveTitleDescBtn">제목/설명 저장</button>
+    </div>
+
+    <!-- 주제 설정 -->
+    <div class="admin-card">
+      <h2>주제 설정</h2>
+      <label for="subjectInput">투표 주제</label>
+      <input type="text" id="subjectInput" placeholder="예: 2025 회비" />
+      <button id="saveSubjectBtn">주제 저장</button>
+    </div>
+
+    <!-- 상태 변경 -->
+    <div class="admin-card">
+      <h2>투표 상태 설정</h2>
+      <label for="statusSelect">현재 상태</label>
+      <select id="statusSelect">
+        <option value="open">진행 중</option>
+        <option value="closed">종료</option>
+      </select>
+      <button id="saveStatusBtn">상태 저장</button>
+    </div>
+
+    <!-- 결과 확인 -->
+    <div class="admin-card">
+      <h2>현재 투표 결과</h2>
+      <p>찬성: <span id="agreeCount">0</span>표</p>
+      <p>반대: <span id="disagreeCount">0</span>표</p>
+    </div>
+
+    <!-- 초기화 -->
+    <div class="admin-card">
+      <h2>데이터 초기화</h2>
+      <button id="resetBtn">🔄 모든 정보 초기화</button>
+    </div>
+
+    <!-- 돌아가기 -->
+    <div class="back-link">
+      <a href="index.html">← 사용자 페이지로 돌아가기</a>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

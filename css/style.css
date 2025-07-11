@@ -1,0 +1,120 @@
+/* style.css */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 24px;
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+.guide {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.vote-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.subject {
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.btn {
+  flex: 1;
+  padding: 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn.agree {
+  background-color: white;
+  color: blue;
+  border: 2px solid blue;
+}
+
+.btn.disagree {
+  background-color: white;
+  color: red;
+  border: 2px solid red;
+}
+
+.btn.selected.agree {
+  background-color: #d0eaff;   /* 연한 파란색 */
+  border-color: #007bff;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.btn.selected.disagree {
+  background-color: #ffe2e2;   /* 연한 빨간색 */
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+/* 버튼을 누르는 순간 나타나는 효과 */
+.btn.agree:active {
+  background-color: #d0eaff;
+  border-color: #007bff;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.btn.disagree:active {
+  background-color: #ffe2e2;
+  border-color: #ff4d4d;
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn.selected {
+  background-color: #e0f0ff;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.result {
+  margin-top: 30px;
+  background-color: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
