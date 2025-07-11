@@ -103,7 +103,6 @@
       font-size: 0.9rem;
     }
   </style>
-
 </head>
 <body>
   <div class="container">
@@ -159,6 +158,89 @@
     </div>
   </div>
 
-  <script src="js/admin.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+    import {
+      getFirestore,
+      doc,
+      getDoc,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDq5m2A3DliRYkv19mpYw-mYckPfIWRZVY",
+      authDomain: "voteapp-ed951.firebaseapp.com",
+      projectId: "voteapp-ed951",
+      storageBucket: "voteapp-ed951.appspot.com",
+      messagingSenderId: "236976658936",
+      appId: "1:236976658936:web:a26c4331a191dd8d031e0d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const configRef = doc(db, "voteConfig", "main");
+
+    const titleInput = document.getElementById("titleInput");
+    const descInput = document.getElementById("descInput");
+    const subjectInput = document.getElementById("subjectInput");
+    const statusSelect = document.getElementById("statusSelect");
+    const agreeCount = document.getElementById("agreeCount");
+    const disagreeCount = document.getElementById("disagreeCount");
+
+    const saveTitleDescBtn = document.getElementById("saveTitleDescBtn");
+    const saveSubjectBtn = document.getElementById("saveSubjectBtn");
+    const saveStatusBtn = document.getElementById("saveStatusBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    // Firestore 데이터 불러오기
+    async function loadConfig() {
+      const snap = await getDoc(configRef);
+      if (snap.exists()) {
+        const data = snap.data();
+        titleInput.value = data.title ?? "";
+        descInput.value = data.description ?? "";
+        subjectInput.value = data.subject ?? "";
+        statusSelect.value = data.status ?? "open";
+        agreeCount.textContent = data.agreeCount ?? 0;
+        disagreeCount.textContent = data.disagreeCount ?? 0;
+      }
+    }
+
+    // 저장 핸들러
+    saveTitleDescBtn.addEventListener("click", async () => {
+      await setDoc(configRef, {
+        title: titleInput.value.trim(),
+        description: descInput.value.trim()
+      }, { merge: true });
+      alert("제목/설명이 저장되었습니다.");
+    });
+
+    saveSubjectBtn.addEventListener("click", async () => {
+      await setDoc(configRef, {
+        subject: subjectInput.value.trim()
+      }, { merge: true });
+      alert("주제가 저장되었습니다.");
+    });
+
+    saveStatusBtn.addEventListener("click", async () => {
+      await setDoc(configRef, {
+        status: statusSelect.value
+      }, { merge: true });
+      alert("투표 상태가 저장되었습니다.");
+    });
+
+    resetBtn.addEventListener("click", async () => {
+      await setDoc(configRef, {
+        agreeCount: 0,
+        disagreeCount: 0,
+        status: "open",
+        resetId : Date.now()
+      }, { merge: true });
+      alert("모든 정보가 초기화되었습니다.");
+      await loadConfig();
+    });
+
+    loadConfig();
+  </script>
 </body>
 </html>

@@ -3,10 +3,10 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>찬반 투표</title>
   <link rel="stylesheet" href="css/style.css" />
-  <style>
+    <style>
     /* 모달 스타일 */
     #passwordModal {
       display: none;
@@ -60,7 +60,12 @@
     }
   </style>
 </head>
+
 <body>
+  <header class="top-bar">
+    <h1 class="main-title">찬반 투표</h1>
+    <button class="admin-button" onclick="showPasswordModal()">⚙️</button>
+  </header>
   <div class="container">
     <p class="guide">찬성, 반대 중 선택</p>
     <h1 class="title">성산교회 청년부</h1>
@@ -74,15 +79,20 @@
       </div>
     </div>
 
-    <div class="result" id="resultBox" style="display: none;">
-      <p>현재 투표 결과</p>
-      <p>찬성: <span id="agreeCount">0</span>표</p>
-      <p>반대: <span id="disagreeCount">0</span>표</p>
+    <div class="result-card" id="resultBox" style="display: none;">
+    <h3>투표 결과</h3>
+    <div class="result-bar">
+        <div class="result-label">찬성</div>
+        <div class="result-value agree">
+        <span id="agreeCount">0</span>표
+        </div>
     </div>
-
-    <!-- 관리자 이동 버튼 -->
-    <div style="margin-top: 32px; text-align: center;">
-      <button onclick="showPasswordModal()" style="padding: 8px 16px;">⚙️ 관리자 페이지</button>
+    <div class="result-bar">
+        <div class="result-label">반대</div>
+        <div class="result-value disagree">
+        <span id="disagreeCount">0</span>표
+        </div>
+    </div>
     </div>
 
     <!-- 비밀번호 입력 모달 -->
@@ -99,30 +109,8 @@
     </div>
   </div>
 
-  <script src="js/main.js"></script>
-  <script>
-    // 관리자 비밀번호 기능
-    function showPasswordModal() {
-      document.getElementById("passwordModal").style.display = "flex";
-    }
 
-    function closePasswordModal() {
-      document.getElementById("passwordModal").style.display = "none";
-      document.getElementById("adminPasswordInput").value = "";
-      document.getElementById("passwordError").textContent = "";
-    }
-
-    function checkAdminPassword() {
-      const input = document.getElementById("adminPasswordInput").value;
-      const error = document.getElementById("passwordError");
-      const correctPassword = "admin"; // ✅ 원하는 비밀번호로 변경 가능
-
-      if (input === correctPassword) {
-        window.location.href = "admin.html";
-      } else {
-        error.textContent = "비밀번호가 올바르지 않습니다.";
-      }
-    }
-  </script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
+

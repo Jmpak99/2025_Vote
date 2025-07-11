@@ -1,80 +1,90 @@
-// admin.js
+// admin.js (Firebase Firestore 연동)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// 주제 관련 요소
-const subjectInput = document.getElementById("subjectInput");
-const saveSubjectBtn = document.getElementById("saveSubjectBtn");
+// ✅ Firebase 설정 (자신의 값으로 변경)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDq5m2A3DliRYkv19mpYw-mYckPfIWRZVY",
+    authDomain: "voteapp-ed951.firebaseapp.com",
+    projectId: "voteapp-ed951",
+    storageBucket: "voteapp-ed951.firebasestorage.app",
+    messagingSenderId: "236976658936",
+    appId: "1:236976658936:web:a26c4331a191dd8d031e0d",
+    measurementId: "G-KR3LQ3Z2VG"
+  };
 
-// 상태 관련 요소
-const statusSelect = document.getElementById("statusSelect");
-const saveStatusBtn = document.getElementById("saveStatusBtn");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const configRef = doc(db, "voteConfig", "main");
 
-// 제목/설명 관련 요소
-const titleInput = document.getElementById("titleInput");
-const descInput = document.getElementById("descInput");
-const saveTitleDescBtn = document.getElementById("saveTitleDescBtn");
+// 🔁 제목/설명 저장
+document.getElementById("saveTitleDescBtn").addEventListener("click", async () => {
+  const title = document.getElementById("inputTitle").value.trim();
+  const description = document.getElementById("inputDesc").value.trim();
 
-// 결과 관련 요소
-const agreeCount = document.getElementById("agreeCount");
-const disagreeCount = document.getElementById("disagreeCount");
+  if (!title || !description) {
+    alert("제목과 설명을 모두 입력해주세요.");
+    return;
+  }
 
-// 초기화 버튼
-const resetBtn = document.getElementById("resetBtn");
+  await setDoc(configRef, {
+    title,
+    description
+  }, { merge: true });
 
-// ===== 1. 초기값 불러오기 =====
-
-// 주제
-const subject = localStorage.getItem("subject") || "";
-subjectInput.value = subject;
-
-// 제목/설명
-titleInput.value = localStorage.getItem("title") || "";
-descInput.value = localStorage.getItem("description") || "";
-
-// 상태
-const voteStatus = localStorage.getItem("voteStatus") || "open";
-statusSelect.value = voteStatus;
-
-// 투표 결과
-const voteData = JSON.parse(localStorage.getItem("votes")) || { yes: 0, no: 0 };
-agreeCount.textContent = voteData.yes;
-disagreeCount.textContent = voteData.no;
-
-// ===== 2. 저장 핸들러 =====
-
-// 주제 저장
-saveSubjectBtn.addEventListener("click", () => {
-  const newSubject = subjectInput.value.trim();
-  localStorage.setItem("subject", newSubject);
-  alert("주제가 저장되었습니다.");
-});
-
-// 제목/설명 저장
-saveTitleDescBtn.addEventListener("click", () => {
-  const newTitle = titleInput.value.trim();
-  const newDesc = descInput.value.trim();
-  localStorage.setItem("title", newTitle);
-  localStorage.setItem("description", newDesc);
   alert("제목과 설명이 저장되었습니다.");
 });
 
-// 상태 저장
-saveStatusBtn.addEventListener("click", () => {
-  const newStatus = statusSelect.value;
-  localStorage.setItem("voteStatus", newStatus);
-  alert("투표 상태가 저장되었습니다.");
+// 🔁 주제 저장
+document.getElementById("saveSubjectBtn").addEventListener("click", async () => {
+  const subject = document.getElementById("inputSubject").value.trim();
+
+  if (!subject) {
+    alert("주제를 입력해주세요.");
+    return;
+  }
+
+  await setDoc(configRef, {
+    subject
+  }, { merge: true });
+
+  alert("주제가 저장되었습니다.");
 });
 
-// ===== 3. 초기화 버튼 =====
+// 🔁 투표 종료
+document.getElementById("endVoteBtn").addEventListener("click", async () => {
+  await setDoc(configRef, {
+    status: "closed"
+  }, { merge: true });
 
-resetBtn.addEventListener("click", () => {
-  if (confirm("정말 모든 데이터를 초기화하시겠습니까?")) {
-    localStorage.removeItem("votes");
-    localStorage.removeItem("voted");
-    localStorage.removeItem("voteStatus");
-    localStorage.removeItem("subject");
-    localStorage.removeItem("title");
-    localStorage.removeItem("description");
-    alert("초기화가 완료되었습니다. 페이지를 새로고침해주세요.");
-    location.reload();
+  alert("투표가 종료되었습니다.");
+});
+
+// 🔁 투표 초기화
+document.getElementById("resetBtn").addEventListener("click", async () => {
+  await setDoc(configRef, {
+    agreeCount: 0,
+    disagreeCount: 0,
+    status: "open",
+    resetId: Date.now()
+  }, { merge: true });
+
+  alert("투표가 초기화되었습니다.");
+});
+
+// 🔁 실시간 결과 표시
+onSnapshot(configRef, (docSnap) => {
+  if (docSnap.exists()) {
+    const data = docSnap.data();
+    document.getElementById("liveSubject").textContent = data.subject ?? "-";
+    document.getElementById("liveAgree").textContent = data.agreeCount ?? 0;
+    document.getElementById("liveDisagree").textContent = data.disagreeCount ?? 0;
+    document.getElementById("voteStatus").textContent = data.status === "closed" ? "종료됨" : "진행 중";
   }
 });
