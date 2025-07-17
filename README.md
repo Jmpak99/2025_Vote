@@ -1,4 +1,4 @@
-<div><img src="https://capsule-render.vercel.app/api?type=waving&height=200&color=gradient&text=Just%20As%20I%20Am" /></div>
+<div><img src="https://capsule-render.vercel.app/api?type=waving&height=200&color=gradient&text=Vote" /></div>
 
 
 
